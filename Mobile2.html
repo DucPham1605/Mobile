@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mobile</title>
+</head>
+<body>
+<script>
+    let Mobile = function (phone,status,battery) {
+        this.phone = phone;
+        this.status = status;
+        this.battery = battery;
+        this.mess = [];
+
+        this.checkStatus = function () {
+            if (battery === 0) {
+                this.status = "Off";
+                document.write(this.phone + ' is running out off battery' + "<br>");
+                return false;
+            }
+            else if(this.status === "On") {
+                return true;
+            }
+            else if(this.status === "Off"){
+                return false;
+            }
+        };
+
+        this.turnOn = function () {
+            if (this.checkStatus === false) {
+                this.status = "On";
+                document.write(this.phone + ' is turning ' + this.status + "<br>");
+            }
+        };
+
+        this.turnOff = function () {
+            if (this.checkStatus === true){
+                this.status = "Off";
+                document.write(this.phone + ' is turning ' + this.status +"<br>");
+            }
+        };
+        this.draft = "";
+        this.compose = function(msg){
+            this.battery -= 1;
+            document.write('The message is ' + msg + "<br>");
+            this.draft = msg;
+        };
+        this.receive = function () {
+            this.battery -=1;
+            document.write(this.phone + ' received a message' + "<br>");
+        };
+        this.send = function (phone) {
+            this.battery -= 1;
+            phone.mess.push(this.draft);
+            phone.receive();
+        };
+        this.recharge = function (number) {
+            if(this.battery + number > 100){
+                this.battery = 100;
+                document.write(this.phone +"'s battery is " + this.battery + "<br>");
+            }
+            else {
+                this.battery += number;
+                document.write(this.phone +"'s battery is " + this.battery +"<br>");
+            }
+        };
+    };
+
+    let Nokia = new Mobile("Nokia","On",50);
+    let Iphone = new Mobile("Iphone","Off",80);
+    Nokia.checkStatus();
+    Nokia.recharge(10);
+    Nokia.compose("Xin chào, tôi tên là Đức");
+    Nokia.send(Iphone);
+    document.write('Iphone has a message which is '+ Iphone.mess[0]);
+</script>
+</body>
+</html>
